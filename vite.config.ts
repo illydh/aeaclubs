@@ -30,7 +30,9 @@ export default defineConfig({
   ...(ghPages
     ? {
         vite: { base: "/aeaclubs/" },
-        nitro: { output: { dir: "dist", publicDir: "dist/client", serverDir: "dist/server" } },
+        // Static hosting needs no server bundle. Without nitro, TanStack Start writes
+        // dist/server/server.js (which its prerender step loads) and pages to dist/client.
+        nitro: false,
       }
     : {}),
 });

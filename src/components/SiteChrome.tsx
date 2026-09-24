@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import logo from "@/assets/aea-logo.png.asset.json";
+import logo from "@/assets/aea-logo.png";
 import { CONTACT_EMAIL } from "@/data/aea";
 
 const navItems = [
@@ -14,7 +14,7 @@ export function SiteHeader() {
     <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/85 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3">
         <Link to="/" className="flex items-center gap-3">
-          <img src={logo.url} alt="Aerospace Employees Association logo" className="h-10 w-auto" />
+          <img src={logo} alt="Aerospace Employees Association logo" className="h-10 w-auto" />
           <span className="hidden text-sm font-semibold uppercase tracking-wide text-brand-deep sm:block">
             Aerospace Employees Association
           </span>
@@ -42,7 +42,7 @@ export function SiteFooter() {
     <footer className="border-t border-border bg-card py-10">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 md:flex-row">
         <div className="flex items-center gap-3">
-          <img src={logo.url} alt="" className="h-7 w-auto" />
+          <img src={logo} alt="" className="h-7 w-auto" />
           <span className="text-xs font-medium uppercase text-muted-foreground">
             © {new Date().getFullYear()} Aerospace Employees Association
           </span>

@@ -1,5 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { CONTACT_EMAIL, clubs, events, officers, photos } from "@/data/aea";
+import { ArrowRight, Mail } from "lucide-react";
+import { EventCalendar } from "@/components/EventCalendar";
+import { RegisterEventDialog } from "@/components/RegisterEventDialog";
+import { Eyebrow, container } from "@/components/SiteChrome";
+import {
+  CONTACT_EMAIL,
+  directors,
+  heroImage,
+  mailto,
+  officers,
+  type BoardMember,
+} from "@/data/aea";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -8,7 +20,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Welcome to the Aerospace Employees Association: browse clubs, upcoming events, officers and directors, documents and photos.",
+          "Welcome to the Aerospace Employees Association: browse clubs, see upcoming events, and meet the officers and directors.",
       },
       { property: "og:title", content: "AEA Home — Aerospace Employees Association" },
       {
@@ -21,193 +33,116 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const featured = clubs.slice(0, 4);
-
   return (
     <>
-      <header className="relative overflow-hidden bg-brand-deep py-24 text-primary-foreground">
-        <div className="absolute inset-0 opacity-10">
-          <div className="h-full w-full bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:40px_40px]" />
+      <section className="relative isolate overflow-hidden bg-brand text-white">
+        <img
+          src={heroImage}
+          alt=""
+          width={800}
+          height={600}
+          className="absolute inset-0 -z-10 size-full object-cover"
+        />
+        <div className="absolute inset-0 -z-10 bg-brand/75" />
+        <div className={cn(container, "pb-28 pt-24 md:pb-34.5 md:pt-33.5")}>
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-white/75">Welcome</p>
+          <h1 className="mt-5.5 max-w-3xl text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl sm:leading-none">
+            We're here to make your time at the company that much better.
+          </h1>
+          <p className="mt-7 max-w-2xl text-lg leading-[1.7] text-white/90">
+            The Aerospace Employees Association charters and supports the clubs across our sites. We
+            host the events that bring everyone together outside of the day-to-day work. Take a look
+            around, join something that sounds fun, and if you don't see what you're looking for,
+            tell us and we'll help you start it.
+          </p>
+          <div className="mt-10 flex flex-wrap gap-4">
+            <Link
+              to="/clubs"
+              className="inline-flex items-center gap-2.5 rounded-full bg-white px-7 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-brand transition-colors hover:bg-white/90"
+            >
+              Browse the clubs
+              <ArrowRight className="size-4" aria-hidden />
+            </Link>
+            <a
+              href="#calendar"
+              className="rounded-full border border-white/40 px-7 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-white transition-colors hover:bg-white/10"
+            >
+              Upcoming events
+            </a>
+          </div>
         </div>
-        <div className="relative mx-auto max-w-7xl px-6">
-          <div className="max-w-3xl">
-            <h1 className="mb-6 text-5xl font-bold leading-tight tracking-tight">
-              Elevating your experience at <span className="text-brand-accent">Aerospace</span>.
-            </h1>
-            <p className="mb-8 text-lg leading-relaxed opacity-80">
-              Welcome to the AEA hub. We're here to make your time at the company that much better.
-              Whether you're looking to join a club, find association documents, or connect with your
-              colleagues, you're in the right place.
+      </section>
+
+      <section id="calendar" className="scroll-mt-20 py-26">
+        <div className={cn(container, "grid items-start gap-12 lg:grid-cols-3 lg:gap-20")}>
+          <div>
+            <Eyebrow>Calendar</Eyebrow>
+            <h2 className={cn("mt-5.5", sectionTitle)}>What's coming up</h2>
+            <p className="mt-6 text-base leading-relaxed text-slate-600">
+              Club events, meetings, and association-wide gatherings, all in one view. Have
+              something to add? Register it and we'll post it here for everyone.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Link
-                to="/clubs"
-                className="rounded-lg bg-brand-accent px-6 py-3 text-sm font-bold text-brand-deep shadow-lg transition-all hover:opacity-90"
-              >
-                Explore Clubs
-              </Link>
-              <Link
-                to="/photos"
-                className="rounded-lg border border-current/20 px-6 py-3 text-sm font-bold transition-all hover:bg-brand-blue"
-              >
-                View Gallery
-              </Link>
-            </div>
+            <RegisterEventDialog className="mt-7" />
+          </div>
+          <div className="min-w-0 lg:col-span-2">
+            <EventCalendar />
           </div>
         </div>
-      </header>
+      </section>
 
-      <main className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
-          <div className="space-y-16 lg:col-span-2">
-            <section>
-              <div className="mb-6 flex items-center gap-2">
-                <div className="h-px flex-1 bg-border" />
-                <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-                  About Us
-                </span>
-              </div>
-              <h2 className="mb-6 text-3xl font-bold">Your Workplace Community</h2>
-              <div className="max-w-none leading-relaxed text-muted-foreground">
-                <p className="mb-4">
-                  The Aerospace Employees Association (AEA) is a member-run organization dedicated to
-                  making life at the company more connected and more fun. We charter and support the
-                  clubs, organize events, and give employees an easy way to find people who share
-                  their interests.
-                </p>
-                <p>
-                  From technical interest groups to recreational sports, the AEA turns colleagues into
-                  friends. Take a look around, join something new, and tell us what you'd like to see
-                  next.
-                </p>
-              </div>
-            </section>
+      <section className="bg-white pb-28 pt-24 md:pb-36 md:pt-28">
+        <div className={container}>
+          <Eyebrow>Leadership</Eyebrow>
+          <h2 className={cn("mt-5.5", sectionTitle)}>Officers &amp; Directors</h2>
+          <p className="mt-6 max-w-2xl text-base leading-relaxed text-slate-600">
+            Your volunteer board — all employees, all happy to talk about clubs, events, or how to
+            get involved.
+          </p>
 
-            <section>
-              <div className="mb-8 flex items-center justify-between">
-                <h2 className="text-3xl font-bold">Featured Clubs</h2>
-                <Link to="/clubs" className="text-sm font-bold text-brand-blue">
-                  View All Clubs &rarr;
-                </Link>
-              </div>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                {featured.map((club) => (
-                  <div
-                    key={club.name}
-                    className="group relative rounded-2xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:shadow-xl"
-                  >
-                    <div className="mb-4 inline-flex size-12 items-center justify-center rounded-xl bg-brand-deep/5 text-xl">
-                      <span>{club.icon}</span>
-                    </div>
-                    <h3 className="mb-2 text-xl font-bold">{club.name}</h3>
-                    <p className="mb-6 text-sm text-muted-foreground">{club.description}</p>
-                    <a
-                      href={`mailto:${club.contact}`}
-                      className="text-sm font-semibold text-brand-blue hover:underline"
-                    >
-                      Join Group
-                    </a>
-                  </div>
-                ))}
-              </div>
-            </section>
+          <BoardGrid members={officers} className="mt-14" />
 
-            <section>
-              <h2 className="mb-8 text-3xl font-bold">Recent Activities</h2>
-              <div className="grid grid-cols-3 gap-4">
-                {photos.slice(0, 3).map((photo) => (
-                  <img
-                    key={photo.src}
-                    src={photo.src}
-                    alt={photo.caption}
-                    loading="lazy"
-                    width={800}
-                    height={600}
-                    className="aspect-square w-full rounded-xl object-cover"
-                  />
-                ))}
-              </div>
-              <Link to="/photos" className="mt-4 inline-block text-sm font-bold text-brand-blue">
-                See all photos &rarr;
-              </Link>
-            </section>
-
-            <section>
-              <div className="mb-8 flex items-center gap-2">
-                <div className="h-px flex-1 bg-border" />
-                <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-                  Who We Are
-                </span>
-              </div>
-              <h2 className="mb-8 text-3xl font-bold">Officers &amp; Directors</h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {officers.map((person) => (
-                  <div
-                    key={person.name}
-                    className="flex items-center gap-4 rounded-xl border border-border bg-card p-4"
-                  >
-                    <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-brand-deep/5 font-mono text-sm font-bold text-brand-deep">
-                      {person.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </div>
-                    <div>
-                      <div className="text-sm font-bold">{person.name}</div>
-                      <div className="text-xs uppercase tracking-wide text-muted-foreground">
-                        {person.role}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-          </div>
-
-          <aside className="space-y-10">
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-              <h2 className="mb-6 text-xl font-bold">Upcoming Events</h2>
-              <div className="space-y-6">
-                {events.map((event) => (
-                  <div key={event.title} className="flex gap-4">
-                    <div className="flex h-12 min-w-12 flex-col items-center justify-center rounded bg-secondary text-secondary-foreground">
-                      <span className="text-[10px] font-bold uppercase">{event.month}</span>
-                      <span className="text-lg font-bold leading-tight">{event.day}</span>
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-bold">{event.title}</h3>
-                      <p className="text-xs text-muted-foreground">{event.detail}</p>
-                      <p className="mt-1 font-mono text-[10px] uppercase tracking-wide text-brand-blue">
-                        {event.club}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <a
-                href={`mailto:${CONTACT_EMAIL}?subject=Add%20a%20club%20event`}
-                className="mt-8 block w-full rounded-lg border border-border py-2 text-center text-xs font-bold text-muted-foreground hover:bg-secondary"
-              >
-                Submit a club event
-              </a>
-            </div>
-
-            <div className="rounded-2xl bg-brand-blue p-6 text-primary-foreground shadow-lg">
-              <h2 className="mb-3 text-lg font-bold">Have a suggestion?</h2>
-              <p className="mb-6 text-sm opacity-90">
-                We welcome your thoughts, suggestions and questions. Reach out to us at{" "}
-                {CONTACT_EMAIL}.
-              </p>
-              <a
-                href={`mailto:${CONTACT_EMAIL}`}
-                className="block w-full rounded-lg bg-card py-3 text-center text-sm font-bold text-brand-blue"
-              >
-                Reach Out to Us
-              </a>
-            </div>
-          </aside>
+          <h3 className="mt-21 text-xs font-medium uppercase tracking-[0.2em] text-slate-400">
+            Directors
+          </h3>
+          <BoardGrid members={directors} className="mt-9" />
         </div>
-      </main>
+      </section>
     </>
+  );
+}
+
+const sectionTitle = "text-4xl font-bold leading-tight tracking-tight text-ink md:text-[2.5rem]";
+
+function BoardGrid({ members, className }: { members: BoardMember[]; className?: string }) {
+  return (
+    <ul className={cn("grid gap-6 sm:grid-cols-2 lg:grid-cols-4", className)}>
+      {members.map((person) => (
+        <li
+          key={person.name}
+          className="flex flex-col rounded-3xl border border-slate-200/60 bg-white px-7 pb-7.5 pt-7.5"
+        >
+          <div className="flex size-14 items-center justify-center rounded-full bg-brand-soft text-base font-semibold text-ink">
+            {person.name
+              .split(" ")
+              .map((part) => part[0])
+              .join("")}
+          </div>
+          <h4 className="mt-5 text-lg font-semibold tracking-tight text-ink">{person.name}</h4>
+          <p className="mt-1.5 text-xs font-medium uppercase leading-5 tracking-[0.2em] text-brand">
+            {person.role}
+          </p>
+          <blockquote className="mt-4 text-base italic leading-relaxed text-slate-600">
+            “{person.quote}”
+          </blockquote>
+          <a
+            href={mailto(CONTACT_EMAIL, `For ${person.name}`)}
+            className="mt-6 inline-flex items-center gap-2.5 text-sm text-slate-500 transition-colors hover:text-brand"
+          >
+            <Mail className="size-4" aria-hidden />
+            {CONTACT_EMAIL}
+          </a>
+        </li>
+      ))}
+    </ul>
   );
 }

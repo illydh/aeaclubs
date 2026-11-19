@@ -7,7 +7,8 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 // GitHub Pages build (set by .github/workflows/deploy-pages.yml): prerender every route to
-// static HTML served under /aeaclubs/. Unset everywhere else, so Lovable builds are unchanged.
+// static HTML served from the root of the custom domain (aeaclubs.org). Unset everywhere else,
+// so Lovable builds are unchanged.
 const ghPages = process.env.GITHUB_PAGES === "true";
 
 export default defineConfig({
@@ -29,7 +30,9 @@ export default defineConfig({
   },
   ...(ghPages
     ? {
-        vite: { base: "/aeaclubs/" },
+        // Root of the custom domain. TanStack Start derives the router basepath from this, so it
+        // must not be a repo sub-path like "/aeaclubs/" (that was only right for illydh.github.io).
+        vite: { base: "/" },
         // Static hosting needs no server bundle. Without nitro, TanStack Start writes
         // dist/server/server.js (which its prerender step loads) and pages to dist/client.
         nitro: false,

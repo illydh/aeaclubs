@@ -31,7 +31,7 @@ jobs:
 
       - run: bun install --frozen-lockfile
 
-      # Prerenders every route into dist/client, served under /aeaclubs/ (see vite.config.ts).
+      # Prerenders every route into dist/client, served from the domain root (see vite.config.ts).
       - run: bun run build
         env:
           GITHUB_PAGES: "true"
